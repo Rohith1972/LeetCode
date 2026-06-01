@@ -1,15 +1,15 @@
 class Solution {
-    public int[] twoSum(int[] arr, int target) {
-        Arrays.sort(arr);
-        int i=0,j=arr.length-1;
-        while(i<j){
-            int res = arr[i]+arr[j];
-            if(res==target)
-                return new int[]{i+1,j+1};
-            else if(res<target)
-                i++;
+    public int[] twoSum(int[] numbers, int target) {
+        int low = 0;
+        int high = numbers.length-1;
+        while(low <= high){
+            int temp = numbers[low]+numbers[high];
+            if(temp == target)
+                return new int[]{low+1,high+1};
+            else if(temp<target)
+                low++;
             else
-                j--;
+                high--;
         }
         return new int[]{-1,-1};
     }
