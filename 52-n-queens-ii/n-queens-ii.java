@@ -1,24 +1,21 @@
 class Solution {
+    static int res = 0;
     public int totalNQueens(int n) {
-        List<List<String>> res = new ArrayList<>();
+        res = 0;
         char[][] board = new char[n][n];
         for(int i=0;i<n;i++)
             Arrays.fill(board[i],'.');
-        solve(0,board,res,n);
-        return res.size();
+        solve(0,board,n);
+        return res;
     }
-    void solve(int col,char[][] board,List<List<String>> res,int n){
+    void solve(int col,char[][] board,int n){
         if(col == n){
-            List<String> temp = new ArrayList<>();
-            for(int i=0;i<n;i++){
-                temp.add(new String(board[i]));
-            }
-            res.add(temp);
+            res++;
         }
         for(int row=0;row<n;row++){
             if(isSafe(row,col,board,n)){
                 board[row][col] = 'Q';
-                solve(col+1,board,res,n);
+                solve(col+1,board,n);
                 board[row][col] = '.';
             }
         }
