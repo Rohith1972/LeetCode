@@ -3,38 +3,33 @@ class Solution {
         mergeSort(nums,0,nums.length-1);
         return nums;
     }
-    public static void mergeSort(int[] arr, int l, int r){
-        if(l<r){
-            int mid = l+(r-l)/2;
-            mergeSort(arr,l,mid);
-            mergeSort(arr,mid+1,r);
-            merge(arr,mid,l,r);
-        }
+    void mergeSort(int[] nums,int low,int high){
+        if(low >= high)
+            return;
+        int mid = low+(high-low)/2;
+        mergeSort(nums,low,mid);
+        mergeSort(nums,mid+1,high);
+        merge(nums,low,mid,high);
     }
-    static void merge(int[] arr,int m,int l,int r){
-        int n1 = m-l+1;
-        int n2 = r-m;
-        int[] L = new int[n1];
-        int[] R = new int[n2];
-        for(int i=0;i<n1;i++){
-            L[i] = arr[i+l];
+    void merge(int[] nums,int low,int mid,int high){
+        List<Integer> temp = new ArrayList<>();
+        int left = low;
+        int right = mid+1;
+        while(left<=mid && right<=high){
+            if(nums[left]<=nums[right]){
+                temp.add(nums[left++]);
+            }else{
+                temp.add(nums[right++]);
+            }
         }
-        for(int i=0;i<n2;i++){
-            R[i] = arr[m+i+1];
+        while(left<=mid){
+            temp.add(nums[left++]);
         }
-        int i=0,j=0;
-        int k = l;
-        while(i<n1 && j<n2){
-            if(L[i]<=R[j])
-                arr[k++] = L[i++];
-            else
-                arr[k++] = R[j++];
+        while(right<=high){
+            temp.add(nums[right++]);
         }
-        while(i<n1){
-            arr[k++] = L[i++];
-        }
-        while(j<n2){
-            arr[k++] = R[j++];
+        for(int i=low;i<=high;i++){
+            nums[i] = temp.get(i-low);
         }
     }
 }
