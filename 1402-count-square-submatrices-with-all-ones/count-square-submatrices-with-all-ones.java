@@ -1,0 +1,27 @@
+class Solution {
+    public int countSquares(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int dp[][] = new int[m][n];
+        int res = 0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                //Base case
+                if(i==0||j==0){
+                    dp[i][j] = matrix[i][j];
+                }
+                // count the max square matrices
+                else if(matrix[i][j]==1){
+                    dp[i][j] = Math.min(dp[i-1][j-1],Math.min(dp[i-1][j],dp[i][j-1]))+1;
+                }
+                // if we cannot form square matrices
+                else{
+                    dp[i][j] = 0;
+                }
+                // Adding the current answers to the global answer
+                res += dp[i][j];
+            }
+        }
+        return res;
+    }
+}
