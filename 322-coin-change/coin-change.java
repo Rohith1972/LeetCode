@@ -1,10 +1,23 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
         int[][] dp = new int[coins.length][amount+1];
-        for(int[] i : dp){
-            Arrays.fill(i,-1);
+        int target = amount;
+        for(int t=0;t<=target;t++){
+            if(t%coins[0]==0) dp[0][t] = t/coins[0];
+            else dp[0][t] = (int)1e9;
         }
-        int ans = solve(coins.length-1,amount,coins,dp);
+        for(int ind=1;ind<coins.length;ind++){
+            for(int t=0;t<=target;t++){
+                int notTake = dp[ind-1][t];
+                int take = (int)1e9;
+                if(coins[ind]<=t){
+                    take = 1 + dp[ind][t-coins[ind]];
+                }
+                dp[ind][t] = Math.min(take,notTake);
+            }
+        }
+        int ans = dp[n-1][target];
         if(ans == 1e9) return -1;
         return ans;
     }
