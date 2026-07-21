@@ -1,20 +1,22 @@
 class Solution {
     public int change(int amount, int[] coins) {
-        int[][] dp = new int[coins.length][amount+1];
+        int[] prev = new int[amount+1];
+        int[] curr = new int[amount+1];
         for(int t=0;t<=amount;t++){
-            if(t%coins[0]==0) dp[0][t]=1;
+            if(t%coins[0]==0) prev[t]=1;
         }
         for(int ind=1;ind<coins.length;ind++){
             for(int t=0;t<=amount;t++){
-                int notTake = dp[ind-1][t];
+                int notTake = prev[t];
                 int take = 0;
                 if(coins[ind]<=t){
-                    take = dp[ind][t-coins[ind]];
+                    take = curr[t-coins[ind]];
                 }
-                dp[ind][t] = take+notTake;
+                curr[t] = take+notTake;
             }
+            prev = curr;
         }
-        return dp[coins.length-1][amount];
+        return prev[amount];
     }
     static int solve(int ind,int target,int[] coins,int[][] dp){
         if(ind == 0){
