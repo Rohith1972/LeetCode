@@ -1,22 +1,20 @@
 class Solution {
     public int minDistance(String s1, String s2) {
-        int m = s1.length();
-        int n = s2.length();
-        int dp[][] = new int[m+1][n+1];
-        for(int i=0;i<=m;i++){
-            dp[i][0] = i;
+        int n = s1.length();
+        int m = s2.length();
+        int[][] dp = new int[n][m];
+        for(int[] i : dp){
+            Arrays.fill(i,-1);
         }
-        for(int j=0;j<=n;j++){
-            dp[0][j] = j;
-        }
-        for(int i=1;i<=m;i++){
-            for(int j=1;j<=n;j++){
-                if(s1.charAt(i-1) == s2.charAt(j-1))
-                    dp[i][j] = dp[i-1][j-1];
-                else 
-                    dp[i][j] = 1 + Math.min(dp[i-1][j],Math.min(dp[i][j-1],dp[i-1][j-1]));
-            }
-        }
-        return dp[m][n];
+        return f(n-1,m-1,s1,s2,dp);
+    }
+    int f(int i,int j,String s1,String s2,int[][] dp){
+        if(i<0) return j+1;
+        if(j<0) return i+1;
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        if(s1.charAt(i) == s2.charAt(j))
+            return dp[i][j] = f(i-1,j-1,s1,s2,dp);
+        return dp[i][j] = 1+(Math.min(f(i-1,j,s1,s2,dp),Math.min(f(i,j-1,s1,s2,dp),f(i-1,j-1,s1,s2,dp))));
     }
 }
