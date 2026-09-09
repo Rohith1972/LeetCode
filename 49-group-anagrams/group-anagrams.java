@@ -3,9 +3,16 @@ class Solution {
         HashMap<String,List<String>> map = new HashMap<>();
         for(String str : strs){
             char[] chars = str.toCharArray();
-            Arrays.sort(chars);
-            String newStr = new String(chars);
-            map.computeIfAbsent(newStr , k -> new ArrayList<>()).add(str);
+            
+            int[] freq = new int[26];
+            for(char c : chars){
+                freq[c - 'a']++;
+            }
+            StringBuilder sb = new StringBuilder();
+            for(int i : freq){
+                sb.append('#').append(i);
+            }
+            map.computeIfAbsent(sb.toString() , k -> new ArrayList<>()).add(str);
         }
         return new ArrayList<>(map.values());
     }
