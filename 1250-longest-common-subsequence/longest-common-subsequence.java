@@ -1,27 +1,27 @@
 class Solution {
     public int longestCommonSubsequence(String s1, String s2) {
-        int[] prev = new int[s2.length()+1];
-        for(int i=0;i<s2.length();i++){
-            prev[i] = 0;
+        int m = s1.length();
+        int n = s2.length();
+        int dp[][] = new int[m+1][n+1];
+        for(int[] row : dp){
+            Arrays.fill(row,-1);
         }
-        for(int ind1=1;ind1<=s1.length();ind1++){
-            int[] curr = new int[s2.length()+1];
-            for(int ind2=1;ind2<=s2.length();ind2++){
-                if(s1.charAt(ind1-1) == s2.charAt(ind2-1))
-                    curr[ind2] = 1 + prev[ind2-1];
-                else curr[ind2] = Math.max(prev[ind2],curr[ind2-1]);
-            }
-            prev = curr;
-        }
-        return prev[s2.length()];
+        return lcs(s1,s2,s1.length(),s2.length(),dp);
     }
-    int solve(int ind1,int ind2,String s1,String s2,int[][] dp){
-        if(ind1<0 || ind2<0)
+    public int lcs(String s,String t,int i,int j,int[][] dp){
+        if(i==0 || j==0){
             return 0;
-        if(dp[ind1][ind2]!=-1)
-            return dp[ind1][ind2];
-        if(s1.charAt(ind1) == s2.charAt(ind2))
-            return 1 + solve(ind1-1,ind2-1,s1,s2,dp);
-        return dp[ind1][ind2] = Math.max(solve(ind1-1,ind2,s1,s2,dp),solve(ind1,ind2-1,s1,s2,dp));
+        }
+        if(dp[i][j]!=-1){
+            return dp[i][j];
+        }
+        if(s.charAt(i-1) == t.charAt(j-1)){
+            return dp[i][j] = 1+lcs(s,t,i-1,j-1,dp);
+        }
+
+        return dp[i][j] = Math.max(
+            lcs(s,t,i-1,j,dp),
+            lcs(s,t,i,j-1,dp)
+        );
     }
 }
