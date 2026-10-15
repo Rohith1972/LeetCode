@@ -1,14 +1,41 @@
 class Solution {
     public int[] searchRange(int[] nums, int target) {
-        int first = -1;
-        int last = -1;
-        for(int i=0;i<nums.length;i++){
-            if(nums[i] == target){
-                if(first == -1)
-                    first = i;
-                last = i;
+        int first = firstPos(nums,target);
+        int last = lastPos(nums,target);
+        return new int[]{first,last};
+    }
+    int firstPos(int[] nums , int target){
+        int low = 0;
+        int high = nums.length-1;
+        int pos = -1;
+        while(low <= high){
+            int mid = low + (high-low)/2;
+            if(target <= nums[mid]){
+                if(target == nums[mid]){
+                    pos = mid;
+                }
+                high = mid-1;
+            }else{
+                low = mid+1;
             }
         }
-        return new int[]{first,last};
+        return pos;
+    }
+    int lastPos(int[] nums , int target){
+        int low = 0;
+        int high = nums.length-1;
+        int pos = -1;
+        while(low <= high){
+            int mid = low + (high-low)/2;
+            if(target >= nums[mid]){
+                if(target == nums[mid]){
+                    pos = mid;
+                }
+                low = mid+1;
+            }else{
+                high = mid-1;
+            }
+        }
+        return pos;
     }
 }
