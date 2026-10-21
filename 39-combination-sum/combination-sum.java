@@ -1,21 +1,23 @@
 class Solution {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> res = new ArrayList<>();
-        combination(0,candidates,target,new ArrayList<>(),res);
+        find(0,target,new ArrayList<>(),candidates,res);
         return res;
     }
-    void combination(int index,int[] candidates,int target,ArrayList<Integer> ds,List<List<Integer>> res){
-        if(index == candidates.length){
+    void find(int ind,int target,ArrayList<Integer> ds,int[] arr,List<List<Integer>> res){
+
+        if(ind == arr.length){
             if(target == 0){
                 res.add(new ArrayList<>(ds));
             }
-            return;
+            return ;
         }
-        if(candidates[index]<=target){
-            ds.add(candidates[index]);
-            combination(index,candidates,target-candidates[index],ds,res);
+
+        if(arr[ind] <= target){
+            ds.add(arr[ind]);
+            find(ind,target-arr[ind],ds,arr,res);
             ds.remove(ds.size()-1);
         }
-        combination(index+1,candidates,target,ds,res);
+        find(ind+1,target,ds,arr,res);
     }
 }
