@@ -1,49 +1,53 @@
 class Solution {
-
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> res = new ArrayList<>();
         char[][] board = new char[n][n];
-        for(int i=0;i<n;i++)
+        for(int i=0;i<n;i++){
             Arrays.fill(board[i],'.');
-        solve(0,board,res,n);
+        }
+        fun(0,board,res,n);
         return res;
     }
-    void solve(int col,char[][] board,List<List<String>> res,int n){
+    void fun(int col,char[][] board,List<List<String>> res,int n){
         if(col == n){
             List<String> temp = new ArrayList<>();
             for(int i=0;i<n;i++){
                 temp.add(new String(board[i]));
             }
             res.add(temp);
+            return;
         }
         for(int row=0;row<n;row++){
-            if(isSafe(row,col,board,n)){
-                board[row][col] = 'Q';
-                solve(col+1,board,res,n);
-                board[row][col] = '.';
+            if(isSafe(col,row,board,n)){
+                board[col][row] = 'Q';
+                fun(col+1,board,res,n);
+                board[col][row] = '.';
             }
         }
+        return;
     }
-    boolean isSafe(int row,int col,char[][] board,int n){
-        for(int p=0;p<col;p++){
-            if(board[row][p]=='Q')
+    boolean isSafe(int col,int row,char[][] board,int n){
+        for(int p=col;p>=0;p--){
+            if(board[p][row] == 'Q'){
                 return false;
+            }
         }
-        int i=row;
-        int j =col;
-        while(i>=0&&j>=0){
-            if(board[i][j]=='Q')
+        int i=col,j=row;
+        while(i>=0 && j>=0){
+            if(board[i][j] == 'Q'){
                 return false;
+            }
             i--;
             j--;
         }
-        i=row;
-        j=col;
-        while(i!=board.length&&j>=0){
-            if(board[i][j]=='Q')
+        i=col;
+        j=row;
+        while(i>=0 && j<n){
+            if(board[i][j] == 'Q'){
                 return false;
-            i++;
-            j--;
+            }
+            i--;
+            j++;
         }
         return true;
     }
